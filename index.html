@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>稀土舆情动态地球</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #container { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="https://unpkg.com/three@0.124.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/globe.gl"></script>
+  <script>
+    const world = Globe()
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+      .pointsData([])
+      .pointAltitude('value')
+      .pointColor(() => 'red')
+      .pointLabel('title')
+      .onPointClick(point => window.open(point.url, '_blank'));
+
+    document.getElementById('container').appendChild(world());
+
+    fetch('rare_earth_data.json')
+      .then(res => res.json())
+      .then(data => {
+        world.pointsData(data);
+      });
+  </script>
+</body>
+</html>
